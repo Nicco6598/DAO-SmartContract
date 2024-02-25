@@ -13,7 +13,7 @@ describe("DAO Contract Tests", function () {
     token = await Token.deploy("DAOToken", "DT", ethers.utils.parseEther("10000"));
 
     // Deploy del contratto DAO con il token come metodo di pagamento per le azioni
-    const DAO = await ethers.getContractFactory("DAO");
+    const DAO = await ethers.getContractFactory("Dao");
     dao = await DAO.deploy(token.address, ethers.utils.parseUnits("1", "ether"));
 
     // Assegna token agli utenti per test
@@ -24,6 +24,12 @@ describe("DAO Contract Tests", function () {
     await token.connect(addr1).approve(dao.address, ethers.utils.parseEther("100"));
     await token.connect(addr2).approve(dao.address, ethers.utils.parseEther("100"));
   });
+
+  // Funzione per far avanzare il tempo
+  async function increaseTime(seconds) {
+    await ethers.provider.send("evm_increaseTime", [seconds]);
+    await ethers.provider.send("evm_mine", []);
+  }
 
   it("Should allow users to buy shares and become DAO members", async function () {
     await dao.connect(addr1).buyShares(10);
@@ -43,6 +49,10 @@ describe("DAO Contract Tests", function () {
     await dao.connect(addr1).createProposal("Proposal 2", "Description 2", addr2.address, 100);
     await dao.connect(addr1).vote(0, true, false);
     await dao.connect(addr2).vote(0, false, false);
+
+    // Avanza il tempo di una settimana per far scadere il periodo di votazione
+    await increaseTime(604801);
+
     const proposal = await dao.proposals(0);
     expect(proposal.voteCountYes).to.equal(10);
     expect(proposal.voteCountNo).to.equal(20);
@@ -54,7 +64,7 @@ describe("DAO Contract Tests", function () {
     await dao.connect(addr1).createProposal("Proposal 3", "Description 3", addr2.address, 100);
     await dao.connect(addr1).vote(0, true, false);
     // Simula l'attesa per il superamento del periodo di votazione
-    await new Promise(r => setTimeout(r, 2000)); // Piccola attesa per il blocco di tempo
+    await increaseTime(604801); // Avanza il tempo di una settimana per far scadere il periodo di votazione
     await dao.connect(addr1).executeProposal(0);
     const proposal = await dao.proposals(0);
     expect(proposal.executed).to.be.true;
@@ -63,4 +73,5 @@ describe("DAO Contract Tests", function () {
   it("Should not allow voting without owning shares", async function () {
     await expect(dao.connect(addr1).vote(0, true, false)).to.be.revertedWith("Must own shares to vote");
   });
+  
 });

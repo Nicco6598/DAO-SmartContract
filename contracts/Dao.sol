@@ -4,7 +4,7 @@ pragma solidity ^0.8.0;
 import "@openzeppelin/contracts/token/ERC20/IERC20.sol";
 import "@openzeppelin/contracts/access/Ownable.sol";
 
-abstract contract Dao is Ownable {
+contract Dao is Ownable(msg.sender) {
     IERC20 public token;
     uint256 public tokenPrice;
     bool public saleIsActive = true;
