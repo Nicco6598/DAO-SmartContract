@@ -64,6 +64,6 @@ Il contratto DAO è deployato al seguente indirizzo [Sepolia](0x19df5326011eD179
 ## Deploy Contratto da Hardhat
 Il seguente comando serve per effettuare il deploy del contratto "Dao.sol" sulla rete Sepolia. Prima di poter eseguire il deploy del contratto, è necessario effettuare il deploy del contratto "Token.sol" con il proprio token personalizzato, impostando il prezzo e la circolazione massima del token. (N.B: È necessario configurare un file hardhat.config.ts per impostare la rete con i propri dati relativi al Nodo API della rete e la propria chiave privata di un wallet compatibile con la rete scelta)
 
-```powershell
+```zsh
 npx hardhat run --network sepolia scripts/deploy.ts
 ```
