@@ -59,7 +59,7 @@ const dao = await Dao.deploy(token.address, prezzoAzioni);
 ```
 
 ## Info Contratto 
-Il contratto DAO è deployato al seguente indirizzo [Sepolia](0x19df5326011eD1798b899F267cd49B57e39Aeda0) e il contratto del token al seguente indirizzo [Sepolia](0x6F0615C3dDD5362Da3f3A0d46562A406ab9fbf00)
+Il contratto per la dao (Dao.sol) è stato deployato al seguente [Indirizzo Sepolia](https://sepolia.etherscan.io/address/0x19df5326011eD1798b899F267cd49B57e39Aeda0) mentre il contratto del token (Token.sol) al seguente [Indirizzo Sepolia](https://sepolia.etherscan.io/address/0x6f0615c3ddd5362da3f3a0d46562a406ab9fbf00)
 
 ## Deploy Contratto da Hardhat
 Il seguente comando serve per effettuare il deploy del contratto "Dao.sol" sulla rete Sepolia. Prima di poter eseguire il deploy del contratto, è necessario effettuare il deploy del contratto "Token.sol" con il proprio token personalizzato, impostando il prezzo e la circolazione massima del token. (N.B: È necessario configurare un file hardhat.config.ts per impostare la rete con i propri dati relativi al Nodo API della rete e la propria chiave privata di un wallet compatibile con la rete scelta)
