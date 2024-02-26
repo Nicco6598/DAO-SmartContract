@@ -1,27 +1,25 @@
-import { ethers } from "hardhat";
+import { ethers } from 'hardhat';
 
 async function main() {
-  const currentTimestampInSeconds = Math.round(Date.now() / 1000);
-  const unlockTime = currentTimestampInSeconds + 60;
+  const [deployer] = await ethers.getSigners();
 
-  const lockedAmount = ethers.parseEther("0.001");
+  console.log('Deploying contracts with the account:', deployer.address);
 
-  const lock = await ethers.deployContract("Lock", [unlockTime], {
-    value: lockedAmount,
-  });
+  // Carica il contratto
+  const MyContract = await ethers.getContractFactory('Dao');
 
-  await lock.waitForDeployment();
+  // Sostituisci "_tokenAddress" con l'indirizzo effettivo del token ERC20
+  const tokenAddress = "0x6F0615C3dDD5362Da3f3A0d46562A406ab9fbf00"; // Sostituisci con l'indirizzo del tuo token ERC20
+  const tokenPrice = 100; // Sostituisci con il prezzo effettivo
+  
+  const myContract = await MyContract.deploy(tokenAddress, tokenPrice);
 
-  console.log(
-    `Lock with ${ethers.formatEther(
-      lockedAmount
-    )}ETH and unlock timestamp ${unlockTime} deployed to ${lock.target}`
-  );
+  console.log('Contract deployed to address:', myContract.address);
 }
 
-// We recommend this pattern to be able to use async/await everywhere
-// and properly handle errors.
-main().catch((error) => {
-  console.error(error);
-  process.exitCode = 1;
-});
+main()
+  .then(() => process.exit(0))
+  .catch(error => {
+    console.error(error);
+    process.exit(1);
+  });

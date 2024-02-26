@@ -57,3 +57,13 @@ Prima di utilizzare il contratto, assicurati di aver impostato correttamente i p
 // Imposta il token ERC-20 e il prezzo delle azioni durante la fase di inizializzazione
 const dao = await Dao.deploy(token.address, prezzoAzioni);
 ```
+
+## Info Contratto 
+Il contratto DAO è deployato al seguente indirizzo [Sepolia](0x19df5326011eD1798b899F267cd49B57e39Aeda0) e il contratto del token al seguente indirizzo [Sepolia](0x6F0615C3dDD5362Da3f3A0d46562A406ab9fbf00)
+
+## Deploy Contratto da Hardhat
+Il seguente comando serve per effettuare il deploy del contratto "Dao.sol" sulla rete Sepolia. Prima di poter eseguire il deploy del contratto, è necessario effettuare il deploy del contratto "Token.sol" con il proprio token personalizzato, impostando il prezzo e la circolazione massima del token. (N.B: È necessario configurare un file hardhat.config.ts per impostare la rete con i propri dati relativi al Nodo API della rete e la propria chiave privata di un wallet compatibile con la rete scelta)
+
+```powershell
+npx hardhat run --network sepolia scripts/deploy.ts
+```
